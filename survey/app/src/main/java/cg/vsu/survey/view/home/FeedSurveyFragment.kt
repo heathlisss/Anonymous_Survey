@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
@@ -14,6 +15,7 @@ import cg.vsu.survey.viewmodel.SurveyListViewModel
 class FeedSurveyFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SurveyAdapter
+    private lateinit var viewModel: SurveyListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,10 +25,11 @@ class FeedSurveyFragment : Fragment() {
         recyclerView = view.findViewById(R.id.RV)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val viewModel = SurveyListViewModel()
+        viewModel = ViewModelProvider(this).get(SurveyListViewModel::class.java)
         adapter = SurveyAdapter(viewModel, this.viewLifecycleOwner)
-        viewModel.loadData()
         recyclerView.adapter = adapter
+
+        viewModel.loadData()
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -46,6 +49,11 @@ class FeedSurveyFragment : Fragment() {
                 }
             }
         })
+
+        viewModel.surveys.observe(viewLifecycleOwner) { surveys ->
+            adapter.notifyDataSetChanged()
+        }
+
         return view
     }
 }

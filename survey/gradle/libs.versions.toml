@@ -9,7 +9,8 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.8.0"
 constraintlayout = "2.2.0"
-
+lifecycle = "2.6.1" # Версия для библиотек lifecycle
+coroutines = "1.6.0" # Версия для корутин
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,9 +24,11 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.11.0" }
 converter = { module = "com.squareup.retrofit2:converter-gson", version = "2.11.0" }
 gson = { module = "com.google.code.gson:gson", version = "2.10.1" }
-interceptor = {module = "com.squareup.okhttp3:logging-interceptor", version = "3.12.1"}
+interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version = "3.12.1" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-

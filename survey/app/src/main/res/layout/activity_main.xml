@@ -12,11 +12,11 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/searchToolbar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/searchToolbar"
@@ -42,6 +42,7 @@
             android:hint="@string/search"
             android:background="@color/base"
             android:padding="10dp"
+            android:maxLines="1"
             android:textColor="@color/text"
             android:textColorHint="@color/inactive"
             android:layout_weight="1" />

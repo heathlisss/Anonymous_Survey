@@ -7,11 +7,6 @@
     <string name="password">Password</string>
     <string name="error_log_in">The password or username was entered incorrectly</string>
     <string name="email">Email</string>
-    <string name="default_description">Intents in Android allow you to send messages, trigger other activities and applications. This mechanism can work both within the same application and between applications. Application examples: launching an activity or service to perform certain actions event notification explicit launch of the specified service or activity The explicit intent contains a call to a certain (pre-known) class. When using explicit intent, the following are specified: the context from which the call will be made the class of the called component (service or activity) additional information (extras), if necessaryn</string>
-    <string name="default_date">2021–12–02 2025–10–30</string>
-    <string name="default_author">#author #author #authorwwwwwwwwwwwwwwwwwwwwww #wiwi</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_search">Hmm... hmm... What do you want to find?</string>
     <string name="menu_home">Home</string>
     <string name="menu_search">Search</string>

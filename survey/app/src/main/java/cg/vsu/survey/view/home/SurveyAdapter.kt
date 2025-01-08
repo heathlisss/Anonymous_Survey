@@ -13,41 +13,42 @@ import cg.vsu.survey.viewmodel.SurveyListViewModel
 class SurveyAdapter(
     private val viewModel: SurveyListViewModel,
     private val lifecycleOwner: LifecycleOwner
-) : RecyclerView.Adapter<SurveyAdapter.SurveyViewHolder>() {
+) : RecyclerView.Adapter<SurveyAdapter.ViewHolder>() {
+
+    private var surveys: List<Survey> = emptyList()
 
     init {
-        viewModel.surveys.observe(lifecycleOwner) { surveys ->
+        viewModel.surveys.observe(lifecycleOwner) { newSurveys ->
+            surveys = newSurveys.toList()
             notifyDataSetChanged()
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SurveyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.survey_card, parent, false)
-        return SurveyViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: SurveyViewHolder, position: Int) {
-        val survey = viewModel.surveys.value?.get(position)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val survey = surveys.getOrNull(position) // Получаем элемент из локального списка
         holder.bind(survey)
     }
 
     override fun getItemCount(): Int {
-        return viewModel.surveys.value?.size ?: 0
+        return surveys.size // Используем размер локального списка
     }
 
-    class SurveyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleTextView: TextView = itemView.findViewById(R.id.titleTextViewn)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
         private val statusTextView: TextView = itemView.findViewById(R.id.statusTextView)
         private val authorTextView: TextView = itemView.findViewById(R.id.authorTextView)
 
         fun bind(survey: Survey?) {
-            titleTextView.text = survey?.title
-            descriptionTextView.text = survey?.description
-            statusTextView.text =
-                survey?.active.toString()
-            authorTextView.text =
-                survey?.admins.toString()
+            titleTextView.text = survey?.title ?: "Unknown survey"
+            descriptionTextView.text = survey?.description ?: "There is no description"
+            statusTextView.text = if (survey?.active == true) "active" else "not active"
+            authorTextView.text = survey?.admins?.joinToString(", ") ?: "Unknown"
         }
     }
 }

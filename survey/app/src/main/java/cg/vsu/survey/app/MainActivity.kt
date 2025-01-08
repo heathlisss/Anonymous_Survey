@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import cg.vsu.survey.R
 import cg.vsu.survey.view.home.FeedSurveyFragment
+import cg.vsu.survey.view.search.FeedSearchFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_search -> {
                     setToolbarVisibility(true)
-                    //loadFragment(FeedSurveyFragment())
+                    loadFragment(FeedSearchFragment())
                     true
                 }
                 R.id.nav_add_survey -> {
