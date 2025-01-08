@@ -12,7 +12,19 @@ object SurveyRestRepository {
         api = retrofit.create(SurveyAPIService::class.java)
     }
 
-
+    // Поиск опросов
+    suspend fun searchSurveys(
+        query: String,
+        token: String = DEFAULT_JWT
+    ): List<Survey>? {
+        val response = api.searchSurveys("Bearer $token", query)
+        return if (response.isSuccessful) {
+            response.body()
+        } else {
+            // Обработка ошибок
+            null
+        }
+    }
 
     // Получение всех опросов
     suspend fun getAllSurveys(

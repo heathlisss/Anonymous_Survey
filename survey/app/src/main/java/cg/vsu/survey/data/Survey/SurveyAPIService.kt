@@ -4,7 +4,12 @@ import cg.vsu.survey.model.Survey
 import retrofit2.Response
 import retrofit2.http.*
 interface SurveyAPIService {
-
+    // Поиск опросов
+    @GET("/surveys/api/surveys/all/")
+    suspend fun searchSurveys(
+        @Header("Authorization") token: String,
+        @Query("search") query: String
+    ): Response<List<Survey>>
 
     // Получение всех опросов
     @GET("/surveys/api/surveys/all/")
