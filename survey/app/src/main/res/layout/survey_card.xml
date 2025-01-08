@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_margin="10dp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/postcard_background">
+
+        <!-- Заголовок -->
+        <TextView
+            android:id="@+id/titleTextViewn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:text="Topic of survey"
+            android:layout_gravity="start"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/text"
+            android:padding="0dp"/>
+
+        <!-- Поле описания -->
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:maxLines="6"
+            android:scrollbars="vertical"
+            android:text="@string/default_description"
+            android:textColor="@color/inactive"
+            android:textSize="16sp" />
+
+        <!-- Даты и Автор -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <!-- Даты -->
+            <TextView
+                android:id="@+id/statusTextView"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="@string/default_date"
+                android:textColor="@color/inactive"
+                android:layout_gravity="start"
+                android:textSize="12sp" />
+
+            <!-- Автор -->
+            <TextView
+                android:id="@+id/authorTextView"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:maxLines="1"
+                android:text="@string/default_author"
+                android:textAlignment="textEnd"
+                android:textColor="@color/inactive"
+                android:textSize="12sp" />
+        </FrameLayout>
+</LinearLayout>
