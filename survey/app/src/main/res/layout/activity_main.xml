@@ -9,7 +9,6 @@
     android:background="@color/base">
 
 
-
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
