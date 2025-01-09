@@ -1,6 +1,6 @@
-package cg.vsu.survey.data.question
+package cg.vsu.survey.network.question
 
-import cg.vsu.survey.app.DEFAULT_JWT
+import cg.vsu.survey.utils.DEFAULT_JWT
 import cg.vsu.survey.app.RetrofitInstance
 import cg.vsu.survey.model.Question
 

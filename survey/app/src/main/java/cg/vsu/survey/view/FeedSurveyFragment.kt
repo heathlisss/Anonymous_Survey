@@ -1,23 +1,21 @@
-package cg.vsu.survey.view.feed
-
+package cg.vsu.survey.view
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
-import cg.vsu.survey.app.DEFAULT_SURVEYS_WHEN_TO_LOAD
+import cg.vsu.survey.adapters.SurveyAdapter
+import cg.vsu.survey.utils.DEFAULT_SURVEYS_WHEN_TO_LOAD
 import cg.vsu.survey.viewmodel.SurveyListViewModel
 
-class FeedSearchFragment : Fragment() {
+
+class FeedSurveyFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SurveyAdapter
-    private lateinit var searchEditText: EditText
     private lateinit var viewModel: SurveyListViewModel
 
     override fun onCreateView(
@@ -26,27 +24,13 @@ class FeedSearchFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
         recyclerView = view.findViewById(R.id.RV)
-        searchEditText = requireActivity().findViewById(R.id.searchEditText) // Получаем EditText из Toolbar
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel = SurveyListViewModel()
+        viewModel = ViewModelProvider(this).get(SurveyListViewModel::class.java)
         adapter = SurveyAdapter(viewModel, this.viewLifecycleOwner)
         recyclerView.adapter = adapter
 
-        // Слушатель изменений текста в EditText
-        searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val query = s.toString()
-                if (query.isNotEmpty()) {
-                    viewModel.searchSurveys(query)
-                } else {
-                    viewModel.clearSearch() // Очистить список, если запрос пустой
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        viewModel.loadData()
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -66,6 +50,11 @@ class FeedSearchFragment : Fragment() {
                 }
             }
         })
+
+        viewModel.surveys.observe(viewLifecycleOwner) { surveys ->
+            adapter.notifyDataSetChanged()
+        }
+
         return view
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cg.vsu.survey.data.survey.SurveyRestRepository
+import cg.vsu.survey.network.survey.SurveyRestRepository
 import cg.vsu.survey.model.Survey
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package cg.vsu.survey.data.option
+package cg.vsu.survey.network.option
 
 import cg.vsu.survey.model.Option
 import retrofit2.Response

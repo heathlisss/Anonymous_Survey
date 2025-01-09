@@ -1,4 +1,4 @@
-package cg.vsu.survey.view.create
+package cg.vsu.survey.adapters
 
 import android.text.Editable
 import android.text.TextWatcher

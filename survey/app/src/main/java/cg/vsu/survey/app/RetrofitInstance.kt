@@ -1,10 +1,10 @@
 package cg.vsu.survey.app
 
+import cg.vsu.survey.utils.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
     private var retrofit: Retrofit? = null

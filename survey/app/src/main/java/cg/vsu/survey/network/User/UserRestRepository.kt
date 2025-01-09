@@ -1,4 +1,4 @@
-package cg.vsu.survey.data.User
+package cg.vsu.survey.network.User
 
 import cg.vsu.survey.app.RetrofitInstance
 import cg.vsu.survey.model.LoginCredentials

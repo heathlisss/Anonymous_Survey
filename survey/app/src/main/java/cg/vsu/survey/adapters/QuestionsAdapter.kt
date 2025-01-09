@@ -1,4 +1,4 @@
-package cg.vsu.survey.view.create
+package cg.vsu.survey.adapters
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
-import cg.vsu.survey.viewmodel.SurveyListViewModel
 
 class QuestionsAdapter(
     private val questions: MutableList<Pair<String, MutableList<String>>>, // Пара вопрос - список вариантов

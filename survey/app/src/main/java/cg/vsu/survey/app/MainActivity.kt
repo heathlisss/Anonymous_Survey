@@ -5,9 +5,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import cg.vsu.survey.R
-import cg.vsu.survey.view.create.CreateSurveyFragment
-import cg.vsu.survey.view.feed.FeedSurveyFragment
-import cg.vsu.survey.view.feed.FeedSearchFragment
+import cg.vsu.survey.view.CreateSurveyFragment
+import cg.vsu.survey.view.FeedSurveyFragment
+import cg.vsu.survey.view.FeedSearchFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

@@ -1,4 +1,4 @@
-package cg.vsu.survey.view.create
+package cg.vsu.survey.view
 
 import android.os.Bundle
 import android.text.Editable
@@ -13,10 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
+import cg.vsu.survey.adapters.AdminsAdapter
+import cg.vsu.survey.adapters.OptionsAdapter
+import cg.vsu.survey.adapters.QuestionsAdapter
 import cg.vsu.survey.model.Option
 import cg.vsu.survey.model.Question
 import cg.vsu.survey.model.Survey
-import cg.vsu.survey.view.feed.FeedSurveyFragment
 import cg.vsu.survey.viewmodel.OptionViewModel
 import cg.vsu.survey.viewmodel.QuestionViewModel
 import cg.vsu.survey.viewmodel.SurveyViewModel

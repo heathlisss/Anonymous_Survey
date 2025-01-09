@@ -1,4 +1,4 @@
-package cg.vsu.survey.view.create
+package cg.vsu.survey.adapters
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
-import cg.vsu.survey.model.Option
 
 class OptionsAdapter(
     private val options: MutableList<String>,
