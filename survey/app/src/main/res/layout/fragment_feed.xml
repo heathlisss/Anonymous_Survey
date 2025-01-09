@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/base"
-    tools:context=".view.home.FeedSurveyFragment">
+    tools:context=".view.feed.FeedSurveyFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RV"

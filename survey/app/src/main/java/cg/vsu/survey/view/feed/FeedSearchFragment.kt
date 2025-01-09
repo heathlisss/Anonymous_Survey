@@ -1,4 +1,4 @@
-package cg.vsu.survey.view.search
+package cg.vsu.survey.view.feed
 
 import android.os.Bundle
 import android.text.Editable
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
 import cg.vsu.survey.app.DEFAULT_SURVEYS_WHEN_TO_LOAD
-import cg.vsu.survey.view.home.SurveyAdapter
 import cg.vsu.survey.viewmodel.SurveyListViewModel
 
 class FeedSearchFragment : Fragment() {

@@ -6,8 +6,8 @@ data class Survey(
     val id: Int? = null,
     val title: String = "",
     val description: String = "",
-    val startDate: LocalDate = LocalDate.now(),
-    val endDate: LocalDate? = null,
+    val start_date: String = LocalDate.now().toString(),
+    val end_date: String? = "",
     val active: Boolean = true,
     val admins: List<Int>? = null,
     val numberOfRespondents: Int =  0

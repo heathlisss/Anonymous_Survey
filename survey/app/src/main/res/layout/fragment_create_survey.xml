@@ -17,6 +17,7 @@
            android:layout_height="wrap_content"
            android:hint="Topic of survey"
            android:textSize="35sp"
+           android:textColorHint="@color/inactive"
            android:textColor="@color/text"
            android:layout_marginBottom="10dp"
            android:background="@android:color/transparent"/>
@@ -28,6 +29,8 @@
            android:layout_height="wrap_content"
            android:hint="Description"
            android:minLines="5"
+           android:textColorHint="@color/inactive"
+           android:textColor="@color/text"
            android:textSize="18sp"
            android:background="@android:color/transparent"
            android:layout_marginBottom="10dp"/>
@@ -45,9 +48,11 @@
                android:layout_height="wrap_content"
                android:layout_weight="1"
                android:hint="start date"
-               android:inputType="date"
+               android:textColorHint="@color/inactive"
+               android:textColor="@color/text"
                android:textSize="18sp"
-               android:background="@android:color/transparent"/>
+               android:background="@android:color/transparent"
+               android:maxLength="10"/>
            <!-- Дата конца -->
            <EditText
                android:id="@+id/endDateEditText"
@@ -55,10 +60,12 @@
                android:layout_height="wrap_content"
                android:layout_weight="1"
                android:hint="end date"
-               android:inputType="date"
+               android:textColorHint="@color/inactive"
+               android:textColor="@color/text"
                android:textSize="18sp"
                android:layout_marginStart="8dp"
-               android:background="@android:color/transparent"/>
+               android:background="@android:color/transparent"
+               android:maxLength="10"/>
        </LinearLayout>
 
        <!-- Администраторы -->

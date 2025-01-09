@@ -1,4 +1,4 @@
-package cg.vsu.survey.view.home
+package cg.vsu.survey.view.feed
 
 import android.view.LayoutInflater
 import android.view.View

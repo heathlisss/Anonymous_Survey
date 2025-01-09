@@ -41,8 +41,8 @@ object SurveyRestRepository {
 
     // Создание нового опроса
     suspend fun createSurvey(
-        token: String = DEFAULT_JWT,
-        survey: Survey
+        survey: Survey,
+        token: String = DEFAULT_JWT
     ): Survey? {
         val response = api.createSurvey("Bearer $token", survey)
         return if (response.isSuccessful) {
