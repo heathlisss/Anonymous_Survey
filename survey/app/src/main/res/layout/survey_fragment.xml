@@ -1,0 +1,154 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:background="@color/base"
+   android:padding="16dp">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+
+       <!-- Заголовок -->
+       <EditText
+           android:id="@+id/surveyTitleEditText"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="Topic of survey"
+           android:textSize="35sp"
+           android:textColor="@color/text"
+           android:layout_marginBottom="10dp"
+           android:background="@android:color/transparent"/>
+
+       <!-- Описание -->
+       <EditText
+           android:id="@+id/surveyDescriptionEditText"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="Description"
+           android:minLines="5"
+           android:textSize="18sp"
+           android:background="@android:color/transparent"
+           android:layout_marginBottom="10dp"/>
+
+       <!-- Даты начала и конца -->
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginBottom="25dp">
+           <!-- Дата начала -->
+           <EditText
+               android:id="@+id/startDateEditText"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:hint="start date"
+               android:inputType="date"
+               android:textSize="18sp"
+               android:background="@android:color/transparent"/>
+           <!-- Дата конца -->
+           <EditText
+               android:id="@+id/endDateEditText"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:hint="end date"
+               android:inputType="date"
+               android:textSize="18sp"
+               android:layout_marginStart="8dp"
+               android:background="@android:color/transparent"/>
+       </LinearLayout>
+
+       <!-- Администраторы -->
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginBottom="10dp">
+
+           <!-- Кнопка добавления администратора -->
+           <ImageButton
+               android:id="@+id/addAdminButton"
+               android:layout_width="22dp"
+               android:layout_height="22dp"
+               android:src="@drawable/add"
+               android:layout_gravity="start"
+               android:layout_marginEnd="10dp"
+               android:background="@android:color/transparent"/>
+
+           <TextView
+               android:layout_width="80dp"
+               android:layout_height="wrap_content"
+               android:text="Admins:"
+               android:layout_gravity="end"
+               android:textSize="18sp"
+               android:textColor="@color/inactive"/>
+       </LinearLayout>
+
+       <!-- Список администраторов -->
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/RV_admins"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+           android:layout_marginBottom="20dp"/>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginBottom="10dp">
+
+           <!-- Кнопка добавления вопроса -->
+           <ImageButton
+               android:id="@+id/addQuestionButton"
+               android:layout_width="22dp"
+               android:layout_height="22dp"
+               android:src="@drawable/add"
+               android:layout_gravity="start"
+               android:layout_marginEnd="10dp"
+               android:background="@android:color/transparent"/>
+
+           <TextView
+               android:layout_width="100dp"
+               android:layout_height="wrap_content"
+               android:text="Questions:"
+               android:layout_gravity="end"
+               android:textSize="18sp"
+               android:textColor="@color/inactive"/>
+       </LinearLayout>
+
+       <!-- Контейнер для вопросов -->
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/RV_questions"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+           android:layout_marginBottom="10dp"/>
+   </LinearLayout>
+
+   <!-- Кнопки сохранить и закрыть -->
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="end|top"
+       android:orientation="horizontal">
+
+       <ImageButton
+           android:id="@+id/saveButton"
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:src="@drawable/save"
+           android:background="@android:color/transparent"
+           android:layout_marginEnd="10dp"/>
+
+       <ImageButton
+           android:id="@+id/closeButton"
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:src="@drawable/close"
+           android:background="@android:color/transparent" />
+   </LinearLayout>
+</FrameLayout>

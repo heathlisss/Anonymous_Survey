@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:layout_marginBottom="4dp">
+
+    <!-- Текст варианта -->
+    <EditText
+        android:id="@+id/elementTextEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="option"
+        android:padding="8dp"
+        android:background="@android:color/transparent"/>
+
+    <!-- Кнопка удаления -->
+    <ImageButton
+        android:id="@+id/deleteElementButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/delete"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:background="@android:color/transparent"/>
+</LinearLayout>
