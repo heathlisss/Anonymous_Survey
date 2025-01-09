@@ -13,7 +13,7 @@
        <!-- Заголовок -->
        <EditText
            android:id="@+id/surveyTitleEditText"
-           android:layout_width="match_parent"
+           android:layout_width="300dp"
            android:layout_height="wrap_content"
            android:hint="Topic of survey"
            android:textSize="35sp"

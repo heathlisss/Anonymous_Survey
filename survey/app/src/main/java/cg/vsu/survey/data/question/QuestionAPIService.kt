@@ -1,4 +1,4 @@
-package cg.vsu.survey.data.Question
+package cg.vsu.survey.data.question
 
 import cg.vsu.survey.model.Question
 import retrofit2.Response

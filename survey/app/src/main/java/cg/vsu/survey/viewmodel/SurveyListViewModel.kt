@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cg.vsu.survey.app.DEFAULT_SURVEYS_WHEN_TO_LOAD
-import cg.vsu.survey.data.Survey.SurveyRestRepository
+import cg.vsu.survey.data.survey.SurveyRestRepository
 import cg.vsu.survey.model.Survey
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 class SurveyListViewModel(

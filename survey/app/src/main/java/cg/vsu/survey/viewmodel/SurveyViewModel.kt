@@ -4,21 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cg.vsu.survey.app.DEFAULT_JWT
-import cg.vsu.survey.data.Survey.SurveyRestRepository
+import cg.vsu.survey.data.survey.SurveyRestRepository
 import cg.vsu.survey.model.Survey
 import kotlinx.coroutines.launch
 
 class SurveyViewModel : ViewModel() {
-
-    private val repository = SurveyRestRepository // Используем объект репозитория
+    private val repositorySurvey = SurveyRestRepository
     private val _surveyCreationStatus = MutableLiveData<Survey?>()
     val surveyCreationStatus: LiveData<Survey?> get() = _surveyCreationStatus
 
-    fun saveSurvey(survey: Survey) {
+    fun saveSurvey(survey: Survey, callback: (Survey?) -> Unit) {
         viewModelScope.launch {
-            val createdSurvey = repository.createSurvey(survey)
+            val createdSurvey = repositorySurvey.createSurvey(survey)
             _surveyCreationStatus.value = createdSurvey
+            callback(createdSurvey) // Передаем созданный опрос через callback
         }
     }
 }

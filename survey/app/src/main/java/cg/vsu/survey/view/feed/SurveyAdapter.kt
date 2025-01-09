@@ -30,12 +30,12 @@ class SurveyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val survey = surveys.getOrNull(position) // Получаем элемент из локального списка
+        val survey = surveys.getOrNull(position)
         holder.bind(survey)
     }
 
     override fun getItemCount(): Int {
-        return surveys.size // Используем размер локального списка
+        return surveys.size
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

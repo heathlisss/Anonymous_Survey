@@ -1,4 +1,4 @@
-package cg.vsu.survey.data.Survey
+package cg.vsu.survey.data.survey
 
 import cg.vsu.survey.app.DEFAULT_JWT
 import cg.vsu.survey.app.RetrofitInstance
