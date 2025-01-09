@@ -13,9 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
+import cg.vsu.survey.model.Option
 import cg.vsu.survey.model.Question
 import cg.vsu.survey.model.Survey
 import cg.vsu.survey.view.feed.FeedSurveyFragment
+import cg.vsu.survey.viewmodel.OptionViewModel
 import cg.vsu.survey.viewmodel.QuestionViewModel
 import cg.vsu.survey.viewmodel.SurveyViewModel
 
@@ -33,11 +35,12 @@ class CreateSurveyFragment : Fragment() {
     private val adminsList = mutableListOf<String>()
     private lateinit var viewModel: SurveyViewModel
     private lateinit var viewModelQuestion: QuestionViewModel
+    private lateinit var viewModelOption: OptionViewModel
 
     private lateinit var questionsRecyclerView: RecyclerView
     private lateinit var questionsAdapter: QuestionsAdapter
-    private val questionsList = mutableListOf<String>()
-
+    private lateinit var optionsAdapter: OptionsAdapter
+    private val questionsList = mutableListOf<Pair<String, MutableList<String>>>() // Пара "вопрос - варианты"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +48,7 @@ class CreateSurveyFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_create_survey, container, false)
 
+        // Инициализация UI-элементов
         titleTextEditText = view.findViewById(R.id.surveyTitleEditText)
         descriptionEditText = view.findViewById(R.id.surveyDescriptionEditText)
         startDateEditText = view.findViewById(R.id.startDateEditText)
@@ -53,14 +57,13 @@ class CreateSurveyFragment : Fragment() {
         closeButton = view.findViewById(R.id.closeButton)
         addAdminButton = view.findViewById(R.id.addAdminButton)
         adminsRecyclerView = view.findViewById(R.id.RV_admins)
-
-
-        viewModel = ViewModelProvider(this).get(SurveyViewModel::class.java)
-        viewModelQuestion = ViewModelProvider(this).get(QuestionViewModel::class.java)
+        questionsRecyclerView = view.findViewById(R.id.RV_questions)
+        val addQuestionButton: ImageButton = view.findViewById(R.id.addQuestionButton)
 
         startDateEditText.addTextChangedListener(DateTextWatcher(startDateEditText))
         endDateEditText.addTextChangedListener(DateTextWatcher(endDateEditText))
 
+        // Настройка адаптера администраторов
         adminsAdapter = AdminsAdapter(adminsList) { position ->
             adminsAdapter.removeAdmin(position)
         }
@@ -70,21 +73,24 @@ class CreateSurveyFragment : Fragment() {
             adminsAdapter.addAdmin()
         }
 
-        saveButton.setOnClickListener { saveSurvey() }
-        closeButton.setOnClickListener { closeFragment() }
+        viewModel = ViewModelProvider(this).get(SurveyViewModel::class.java)
+        viewModelQuestion = ViewModelProvider(this).get(QuestionViewModel::class.java)
+        viewModelOption = ViewModelProvider(this).get(OptionViewModel::class.java)
 
-
-        questionsRecyclerView = view.findViewById(R.id.RV_questions)
+        // Настройка адаптера вопросов
         questionsAdapter = QuestionsAdapter(questionsList) { position ->
             questionsAdapter.removeQuestion(position)
         }
         questionsRecyclerView.adapter = questionsAdapter
         questionsRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        val addQuestionButton: ImageButton = view.findViewById(R.id.addQuestionButton)
         addQuestionButton.setOnClickListener {
             questionsAdapter.addQuestion()
         }
+
+        // Настройка кнопок
+        saveButton.setOnClickListener { saveSurvey() }
+        closeButton.setOnClickListener { closeFragment() }
 
         return view
     }
@@ -100,33 +106,44 @@ class CreateSurveyFragment : Fragment() {
             description = surveyDescription,
             start_date = startDateString,
             end_date = endDateString,
-            admins = adminsAdapter.getAdmins().filter { it.isNotEmpty() },
+            admins = adminsAdapter.getAdmins().filter { it.isNotEmpty() }
         )
 
         viewModel.saveSurvey(survey) { createdSurvey ->
-            if (createdSurvey != null) {
-                createdSurvey.id?.let { saveQuestions(it) }
-                closeFragment()
-            } else {
+            createdSurvey?.id?.let { surveyId ->
+                saveQuestions(surveyId)
             }
         }
 
-        closeFragment()
     }
 
     private fun saveQuestions(surveyId: Int) {
-        val questionsToSave = questionsAdapter.getQuestions().filter { it.isNotEmpty() }
-        for (questionText in questionsToSave) {
+        val questionsToSave = questionsAdapter.getQuestions().filter { it.first.isNotEmpty() }
+        for ((index, questionData) in questionsToSave.withIndex()) {
+            val (questionText, options) = questionData
             val question = Question(
                 survey = surveyId,
                 text = questionText
-                // options можно оставить пустым или добавить логику для их сохранения
             )
-            viewModelQuestion.saveQuestion(question)
+            viewModelQuestion.saveQuestion(question) { createdQuestion ->
+                createdQuestion?.id?.let { questionId ->
+                    saveOptionsForQuestion(options, questionId)
+                }
+            }
         }
+
+
     }
 
-
+    private fun saveOptionsForQuestion(options: List<String>, questionId: Int) {
+        options.filter { it.isNotEmpty() }.forEach { optionText ->
+            val option = Option(
+                question = questionId,
+                text = optionText
+            )
+            viewModelOption.saveOption(option)
+        }
+    }
 
     private fun closeFragment() {
         // Загрузка фрагмента Home (FeedSurveyFragment)
