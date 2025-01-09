@@ -8,57 +8,68 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
 import cg.vsu.survey.model.Survey
 import cg.vsu.survey.view.feed.FeedSurveyFragment
 import cg.vsu.survey.viewmodel.SurveyViewModel
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class CreateSurveyFragment : Fragment() {
 
 
     private lateinit var titleTextEditText: EditText
-    private lateinit var descriptionEditText: EditText // Поле для описания
+    private lateinit var descriptionEditText: EditText
     private lateinit var startDateEditText: EditText
     private lateinit var endDateEditText: EditText
     private lateinit var saveButton: ImageButton
-    private lateinit var closeButton: ImageButton // Кнопка закрытия
+    private lateinit var closeButton: ImageButton
+    private lateinit var addAdminButton: ImageButton
+    private lateinit var adminsRecyclerView: RecyclerView
+    private lateinit var adminsAdapter: AdminsAdapter
+    private val adminsList = mutableListOf<String>()
     private lateinit var viewModel: SurveyViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflating the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_survey, container, false)
 
-        // Инициализация EditText для ввода данных
         titleTextEditText = view.findViewById(R.id.surveyTitleEditText)
-        descriptionEditText = view.findViewById(R.id.surveyDescriptionEditText) // Инициализация поля описания
+        descriptionEditText = view.findViewById(R.id.surveyDescriptionEditText)
         startDateEditText = view.findViewById(R.id.startDateEditText)
         endDateEditText = view.findViewById(R.id.endDateEditText)
         saveButton = view.findViewById(R.id.saveButton)
-        closeButton = view.findViewById(R.id.closeButton) // Инициализация кнопки закрытия
+        closeButton = view.findViewById(R.id.closeButton)
+        addAdminButton = view.findViewById(R.id.addAdminButton)
+        adminsRecyclerView = view.findViewById(R.id.RV_admins)
 
-        // Инициализация ViewModel
+
         viewModel = ViewModelProvider(this).get(SurveyViewModel::class.java)
 
-        // Применение TextWatcher для автоматического форматирования дат
         startDateEditText.addTextChangedListener(DateTextWatcher(startDateEditText))
         endDateEditText.addTextChangedListener(DateTextWatcher(endDateEditText))
 
-        // Установка слушателей на кнопки
+        adminsAdapter = AdminsAdapter(adminsList) { position ->
+            adminsAdapter.removeAdmin(position)
+        }
+        adminsRecyclerView.adapter = adminsAdapter
+        adminsRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        addAdminButton.setOnClickListener {
+            adminsAdapter.addAdmin()
+        }
+
+
         saveButton.setOnClickListener { saveSurvey() }
-        closeButton.setOnClickListener { closeFragment() } // Закрытие фрагмента по нажатию кнопки
+        closeButton.setOnClickListener { closeFragment() }
 
         return view
     }
 
-    // Метод для сохранения опроса
     private fun saveSurvey() {
         val surveyTitle = titleTextEditText.text.toString()
         val surveyDescription = descriptionEditText.text.toString()
@@ -68,11 +79,14 @@ class CreateSurveyFragment : Fragment() {
         val startDate = startDateString
         val endDate =  endDateString
 
+        val admins = adminsAdapter.getAdmins().filter { it.isNotEmpty() }
+
         val survey = Survey(
             title = surveyTitle,
             description = surveyDescription,
             start_date = startDate,
-            end_date = endDate
+            end_date = endDate,
+            admins = admins
         )
 
         viewModel.saveSurvey(survey)

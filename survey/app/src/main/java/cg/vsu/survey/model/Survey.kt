@@ -9,6 +9,6 @@ data class Survey(
     val start_date: String = LocalDate.now().toString(),
     val end_date: String? = "",
     val active: Boolean = true,
-    val admins: List<Int>? = null,
+    val admins: List<String> = listOf(),
     val numberOfRespondents: Int =  0
 )

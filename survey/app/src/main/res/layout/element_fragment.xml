@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:layout_marginBottom="4dp">
+    android:layout_marginBottom="4dp"
+    android:background="@android:color/transparent">
 
     <!-- Текст варианта -->
     <EditText
@@ -12,7 +13,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="option"
+        android:hint="element"
+        android:textColorHint="@color/inactive"
+        android:textColor="@color/text"
         android:padding="8dp"
         android:background="@android:color/transparent"/>
 
