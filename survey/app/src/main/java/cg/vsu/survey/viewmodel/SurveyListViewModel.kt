@@ -29,7 +29,7 @@ class SurveyListViewModel(
 
     private fun addSurveys(newSurveys: List<Survey>) {
         val currentSet = _surveys.value ?: mutableSetOf()
-        currentSet.addAll(newSurveys) // Используем addAll для Set, чтобы избежать дублирования
+        currentSet.addAll(newSurveys)
         _surveys.value = currentSet
     }
 
@@ -54,13 +54,13 @@ class SurveyListViewModel(
     fun searchSurveys(query: String) {
         loading = true
         viewModelScope.launch {
-            val newItems = SurveyRestRepository.searchSurveys(query) // Реализуйте этот метод в вашем репозитории
-            _surveys.value = newItems?.toMutableSet() ?: mutableSetOf() // Используем Set для уникальных значений
+            val newItems = SurveyRestRepository.searchSurveys(query)
+            _surveys.value = newItems?.toMutableSet() ?: mutableSetOf()
             loading = false
         }
     }
 
     fun clearSearch() {
-        _surveys.value = mutableSetOf() // Очищаем набор опросов
+        _surveys.value = mutableSetOf()
     }
 }

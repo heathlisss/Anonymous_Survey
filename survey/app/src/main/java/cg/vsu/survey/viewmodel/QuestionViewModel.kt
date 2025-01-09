@@ -16,7 +16,7 @@ class QuestionViewModel : ViewModel() {
         viewModelScope.launch {
             val result = repositoryQuestion.createQuestion(question)
             _createdQuestion.value = result
-            callback(result) // Передаем созданный вопрос через callback
+            callback(result)
         }
     }
 

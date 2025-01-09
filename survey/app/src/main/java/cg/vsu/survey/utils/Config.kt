@@ -2,4 +2,4 @@ package cg.vsu.survey.utils
 
 const val BASE_URL = "http://38.180.101.54:8000/"
 const val DEFAULT_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3MzYzNDg1MjIsImV4cCI6MTczODk0MDUyMn0.2n5ziRw0Y7GTSgdK-3AQtU7N3zG9XnJd6EhXPAqGLPM"
-const val DEFAULT_SURVEYS_WHEN_TO_LOAD = 5
+const val DEFAULT_SURVEYS_WHEN_TO_LOAD = 1

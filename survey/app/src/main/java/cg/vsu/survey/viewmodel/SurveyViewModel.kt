@@ -17,7 +17,7 @@ class SurveyViewModel : ViewModel() {
         viewModelScope.launch {
             val createdSurvey = repositorySurvey.createSurvey(survey)
             _surveyCreationStatus.value = createdSurvey
-            callback(createdSurvey) // Передаем созданный опрос через callback
+            callback(createdSurvey)
         }
     }
 }
