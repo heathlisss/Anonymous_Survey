@@ -5,6 +5,10 @@
    android:background="@color/base"
    android:padding="16dp">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
@@ -136,6 +140,8 @@
            android:layout_marginBottom="10dp"/>
    </LinearLayout>
 
+    </ScrollView>
+
    <!-- Кнопки сохранить и закрыть -->
    <LinearLayout
        android:layout_width="wrap_content"
@@ -148,7 +154,7 @@
            android:layout_width="30dp"
            android:layout_height="30dp"
            android:src="@drawable/save"
-           android:background="@android:color/transparent"
+           android:background="@color/base"
            android:layout_marginEnd="10dp"/>
 
        <ImageButton
@@ -156,6 +162,7 @@
            android:layout_width="30dp"
            android:layout_height="30dp"
            android:src="@drawable/close"
-           android:background="@android:color/transparent" />
+           android:background="@color/base"
+            />
    </LinearLayout>
 </FrameLayout>

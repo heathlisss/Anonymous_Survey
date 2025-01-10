@@ -3,6 +3,7 @@ package cg.vsu.survey.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,12 +38,12 @@ class CreateSurveyFragment : Fragment() {
     private val adminsList = mutableListOf<String>()
     private lateinit var viewModel: SurveyViewModel
     private lateinit var viewModelQuestion: QuestionViewModel
-    private lateinit var viewModelOption: OptionViewModel
 
     private lateinit var questionsRecyclerView: RecyclerView
     private lateinit var questionsAdapter: QuestionsAdapter
-    private lateinit var optionsAdapter: OptionsAdapter
-    private val questionsList = mutableListOf<Pair<String, MutableList<String>>>() // Пара "вопрос - варианты"
+    private val questionsList = mutableListOf<String>()
+
+    private lateinit var viewModelOption: OptionViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,10 +78,12 @@ class CreateSurveyFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(SurveyViewModel::class.java)
         viewModelQuestion = ViewModelProvider(this).get(QuestionViewModel::class.java)
-        viewModelOption = ViewModelProvider(this).get(OptionViewModel::class.java)
+
+        viewModelOption  = ViewModelProvider(this).get(OptionViewModel::class.java)
 
         // Настройка адаптера вопросов
         questionsAdapter = QuestionsAdapter(questionsList) { position ->
+            Log.d("позиция", "Номер вопроса: $position")
             questionsAdapter.removeQuestion(position)
         }
         questionsRecyclerView.adapter = questionsAdapter
@@ -91,7 +94,10 @@ class CreateSurveyFragment : Fragment() {
         }
 
         // Настройка кнопок
-        saveButton.setOnClickListener { saveSurvey() }
+        saveButton.setOnClickListener {
+            saveSurvey()
+            closeFragment()
+        }
         closeButton.setOnClickListener { closeFragment() }
 
         return view
@@ -116,33 +122,38 @@ class CreateSurveyFragment : Fragment() {
                 saveQuestions(surveyId)
             }
         }
+        closeFragment()
 
     }
 
+
     private fun saveQuestions(surveyId: Int) {
-        val questionsToSave = questionsAdapter.getQuestions().filter { it.first.isNotEmpty() }
-        for ((index, questionData) in questionsToSave.withIndex()) {
-            val (questionText, options) = questionData
+        val questionsToSave = questionsAdapter.getQuestions().filter { it.isNotEmpty() }
+        for ((index, questionText) in questionsToSave.withIndex()) {
             val question = Question(
                 survey = surveyId,
                 text = questionText
             )
             viewModelQuestion.saveQuestion(question) { createdQuestion ->
                 createdQuestion?.id?.let { questionId ->
-                    saveOptionsForQuestion(options, questionId)
+                    saveOptions(questionId, index) // Передаем ID вопроса и его позицию
                 }
             }
         }
-
-
     }
 
-    private fun saveOptionsForQuestion(options: List<String>, questionId: Int) {
-        options.filter { it.isNotEmpty() }.forEach { optionText ->
+
+    private fun saveOptions(questionId: Int,  position: Int) {
+        Log.d("Перешли в опшен", "Номер вопроса: $questionId")
+        val optionsToSave = questionsAdapter.getOptionsForQuestion(position).filter { it.isNotEmpty() }
+        Log.d("Перешли в опшен", "Количество опций: ${optionsToSave.size}")
+        for (optionText in optionsToSave) {
+            Log.d("Перешли в опшен", "текст опшена: $optionText")
             val option = Option(
                 question = questionId,
                 text = optionText
             )
+            Log.d("Перешли в опшен", "Количество опций: $option")
             viewModelOption.saveOption(option)
         }
     }

@@ -22,17 +22,19 @@ class OptionsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.element_fragment, parent, false)
+            .inflate(R.layout.fragment_create_element, parent, false)
         return OptionViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: OptionViewHolder, position: Int) {
-        holder.optionEditText.setText(options[position])
+        holder.optionEditText.setText(options[holder.adapterPosition])
 
-        // Обновление текста варианта
         holder.optionEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                options[position] = s.toString()
+                val currentPosition = holder.adapterPosition
+                if (currentPosition != RecyclerView.NO_POSITION) {
+                    options[currentPosition] = s.toString()
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -41,7 +43,10 @@ class OptionsAdapter(
 
         // Удаление варианта
         holder.deleteButton.setOnClickListener {
-            onDeleteOption(position)
+            val currentPosition = holder.adapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                onDeleteOption(currentPosition)
+            }
         }
     }
 

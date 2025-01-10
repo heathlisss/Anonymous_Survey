@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:layout_marginBottom="4dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="15dp"
     android:background="@android:color/transparent">
 
     <!-- Текст варианта -->
@@ -16,7 +16,7 @@
         android:hint="element"
         android:textColorHint="@color/inactive"
         android:textColor="@color/text"
-        android:padding="8dp"
+        android:padding="5dp"
         android:background="@android:color/transparent"/>
 
     <!-- Кнопка удаления -->
@@ -26,6 +26,5 @@
         android:layout_height="35dp"
         android:src="@drawable/delete"
         android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
         android:background="@android:color/transparent"/>
 </LinearLayout>

@@ -2,6 +2,7 @@ package cg.vsu.survey.adapters
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ class AdminsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.element_fragment, parent, false)
+            .inflate(R.layout.fragment_create_element, parent, false)
         return AdminViewHolder(view)
     }
 
@@ -32,7 +33,7 @@ class AdminsAdapter(
         // Обновление списка при изменении текста
         holder.adminEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                admins[position] = s.toString()
+                admins[holder.adapterPosition] = s.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -41,9 +42,13 @@ class AdminsAdapter(
 
         // Удаление администратора
         holder.deleteButton.setOnClickListener {
-            onDeleteClick(position)
+            val currentPosition = holder.adapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                onDeleteClick(currentPosition)
+            }
         }
     }
+
 
     override fun getItemCount(): Int = admins.size
 
@@ -53,6 +58,7 @@ class AdminsAdapter(
     }
 
     fun removeAdmin(position: Int) {
+        Log.d("админ", "Номер админа: $position")
         admins.removeAt(position)
         notifyItemRemoved(position)
     }

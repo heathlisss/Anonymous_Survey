@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/card_background"
     android:gravity="center"
-    android:padding="8dp"
+    android:padding="10dp"
     android:layout_margin="8dp">
 
     <LinearLayout
@@ -27,7 +27,8 @@
             android:textSize="16sp"
             android:textColorHint="@color/inactive"
             android:textColor="@color/text"
-            android:background="@android:color/transparent"/>
+            android:backgroundTint="@color/inactive"/>
+<!--            android:background="@android:color/transparent"/>-->
 
         <ImageButton
             android:id="@+id/deleteQuestionButton"
@@ -35,7 +36,6 @@
             android:layout_height="35dp"
             android:src="@drawable/delete"
             android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"/>
 
     </LinearLayout>
@@ -51,6 +51,7 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:src="@drawable/add"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:gravity="center"
         android:background="@android:color/transparent"/>
