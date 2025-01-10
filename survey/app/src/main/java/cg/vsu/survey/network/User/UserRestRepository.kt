@@ -1,9 +1,9 @@
 package cg.vsu.survey.network.User
 
 import cg.vsu.survey.app.RetrofitInstance
-import cg.vsu.survey.model.LoginCredentials
 import cg.vsu.survey.model.User
 import cg.vsu.survey.model.UserRegistration
+import cg.vsu.survey.model.LoginResponse
 
 
 object UserRestRepository {
@@ -15,23 +15,45 @@ object UserRestRepository {
     }
 
     // Вход пользователя
-    suspend fun loginUser(credentials: LoginCredentials): User? {
+    suspend fun loginUser(credentials: UserRegistration): Pair<User, String>? {
         val response = api.loginUser(credentials)
         return if (response.isSuccessful) {
-            response.body()
+            val loginResponse = response.body()
+            loginResponse?.let {
+                val user = User(
+                    id = it.id,
+                    username = it.username,
+                    email = it.email ?: "",
+                    admin = it.admin,
+                    answered_surveys = it.answered_surveys,
+                    created_surveys = it.created_surveys
+                )
+                val token = it.token
+                Pair(user, token ?: "")
+            }
         } else {
-            // Обработка ошибок, можно вернуть null или другую структуру для ошибок
             null
         }
     }
 
     // Создание пользователя
-    suspend fun createUser(user: UserRegistration): User? {
+    suspend fun createUser(user: UserRegistration): Pair<User, String>? {
         val response = api.createUser(user)
         return if (response.isSuccessful) {
-            response.body()
+            val loginResponse = response.body()
+            loginResponse?.let {
+                val user = User(
+                    id = it.id,
+                    username = it.username,
+                    email = it.email ?: "",
+                    admin = it.admin,
+                    answered_surveys = it.answered_surveys,
+                    created_surveys = it.created_surveys
+                )
+                val token = it.token
+                Pair(user, token ?: "")
+            }
         } else {
-            // Обработка ошибок
             null
         }
     }
@@ -48,7 +70,10 @@ object UserRestRepository {
     }
 
     // Получение пользователя по ID
-    suspend fun getUserById(token: String, id: Int): User? {
+    suspend fun getUserById(
+        id: Int,
+        token: String
+    ): User? {
         val response = api.getUserById("Bearer $token", id)
         return if (response.isSuccessful) {
             response.body()
@@ -59,7 +84,11 @@ object UserRestRepository {
     }
 
     // Обновление пользователя
-    suspend fun updateUser(token: String, id: Int, user: User): User? {
+    suspend fun updateUser(
+        id: Int,
+        user: User,
+        token: String
+    ): User? {
         val response = api.updateUser("Bearer $token", id, user)
         return if (response.isSuccessful) {
             response.body()
@@ -70,13 +99,19 @@ object UserRestRepository {
     }
 
     // Удаление пользователя
-    suspend fun deleteUser(token: String, id: Int): Boolean {
+    suspend fun deleteUser(
+        id: Int,
+        token: String
+    ): Boolean {
         val response = api.deleteUser("Bearer $token", id)
         return response.isSuccessful
     }
 
     // Получение администраторов опроса по ID
-    suspend fun getSurveyAdmins(token: String, surveyId: Int): List<User>? {
+    suspend fun getSurveyAdmins(
+        surveyId: Int,
+        token: String
+    ): List<User>? {
         val response = api.getSurveyAdmins("Bearer $token", surveyId)
         return if (response.isSuccessful) {
             response.body()

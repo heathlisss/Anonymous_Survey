@@ -26,7 +26,11 @@ class FeedSurveyFragment : Fragment() {
         recyclerView = view.findViewById(R.id.RV)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel = ViewModelProvider(this).get(SurveyListViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(SurveyListViewModel::class.java)
+
         adapter = SurveyAdapter(viewModel, this.viewLifecycleOwner)
         recyclerView.adapter = adapter
 

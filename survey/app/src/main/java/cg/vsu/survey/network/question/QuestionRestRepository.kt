@@ -15,7 +15,7 @@ object QuestionRestRepository {
     // Создание нового вопроса
     suspend fun createQuestion(
         question: Question,
-        token: String = DEFAULT_JWT
+        token: String
     ): Question? {
         val response = api.createQuestion("Bearer $token", question)
         return if (response.isSuccessful) {
@@ -29,7 +29,7 @@ object QuestionRestRepository {
     // Получение вопроса по ID
     suspend fun getQuestion(
         questionId: Int,
-        token: String = DEFAULT_JWT
+        token: String
     ): Question? {
         val response = api.getQuestion("Bearer $token", questionId)
         return if (response.isSuccessful) {
@@ -44,7 +44,7 @@ object QuestionRestRepository {
     suspend fun updateQuestion(
         questionId: Int,
         question: Question,
-        token: String = DEFAULT_JWT
+        token: String
     ): Question? {
         val response = api.updateQuestion("Bearer $token", questionId, question)
         return if (response.isSuccessful) {
@@ -58,7 +58,7 @@ object QuestionRestRepository {
     // Удаление вопроса по ID
     suspend fun deleteQuestion(
         questionId: Int,
-        token: String = DEFAULT_JWT
+        token: String
     ): String? {
         val response = api.deleteQuestion("Bearer $token", questionId)
         return if (response.isSuccessful) {
@@ -72,7 +72,7 @@ object QuestionRestRepository {
     // Получение всех вопросов для конкретного опроса
     suspend fun getQuestionsBySurvey(
         surveyId: Int,
-        token: String = DEFAULT_JWT
+        token: String
     ): List<Question>? {
         val response = api.getQuestionsBySurvey("Bearer $token", surveyId)
         return if (response.isSuccessful) {

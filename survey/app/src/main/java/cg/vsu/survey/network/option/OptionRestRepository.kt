@@ -15,7 +15,7 @@ object OptionRestRepository {
     // Создание нового варианта ответа
     suspend fun createOption(
         option: Option,
-        token: String = DEFAULT_JWT
+        token: String
     ): Option? {
         val response = api.createOption("Bearer $token", option)
         return if (response.isSuccessful) {
@@ -29,7 +29,7 @@ object OptionRestRepository {
     // Получение варианта ответа по ID
     suspend fun getOption(
         optionId: Int,
-        token: String = DEFAULT_JWT
+        token: String
     ): Option? {
         val response = api.getOption("Bearer $token", optionId)
         return if (response.isSuccessful) {
@@ -44,7 +44,7 @@ object OptionRestRepository {
     suspend fun updateOption(
         optionId: Int,
         option: Option,
-        token: String = DEFAULT_JWT
+        token: String
     ): Option? {
         val response = api.updateOption("Bearer $token", optionId, option)
         return if (response.isSuccessful) {
@@ -58,7 +58,7 @@ object OptionRestRepository {
     // Удаление варианта ответа по ID
     suspend fun deleteOption(
         optionId: Int,
-        token: String = DEFAULT_JWT
+        token: String
     ): String? {
         val response = api.deleteOption("Bearer $token", optionId)
         return if (response.isSuccessful) {
@@ -72,7 +72,7 @@ object OptionRestRepository {
     // Получение всех вариантов ответа для определенного вопроса
     suspend fun getOptionsByQuestion(
         questionId: Int,
-        token: String = DEFAULT_JWT
+        token: String
     ): List<Option>? {
         val response = api.getOptionsByQuestion("Bearer $token", questionId)
         return if (response.isSuccessful) {

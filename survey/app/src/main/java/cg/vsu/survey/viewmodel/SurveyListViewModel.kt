@@ -1,5 +1,7 @@
 package cg.vsu.survey.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,12 +12,12 @@ import cg.vsu.survey.model.Survey
 import kotlinx.coroutines.launch
 
 
-class SurveyListViewModel(
-    private val loadLimit: Int = DEFAULT_SURVEYS_WHEN_TO_LOAD
-) : ViewModel() {
+class SurveyListViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val loadLimit: Int = DEFAULT_SURVEYS_WHEN_TO_LOAD
     private var loading = false
     private var endOfFeed = false
+    private val loginViewModel = LoginViewModel(application)
 
     fun isLoading(): Boolean = loading
     fun isEnded(): Boolean = endOfFeed
@@ -41,22 +43,28 @@ class SurveyListViewModel(
         loading = true
 
         viewModelScope.launch {
-            val newItems = SurveyRestRepository.getAllSurveys()
-            if (!newItems.isNullOrEmpty()) {
-                addSurveys(newItems)
-            } else {
-                endOfFeed = true
+            val token = loginViewModel.getToken()
+            if (token != null) {
+                val newItems = SurveyRestRepository.getAllSurveys(token)
+                if (!newItems.isNullOrEmpty()) {
+                    addSurveys(newItems)
+                } else {
+                    endOfFeed = true
+                }
+                loading = false
             }
-            loading = false
         }
     }
 
     fun searchSurveys(query: String) {
         loading = true
         viewModelScope.launch {
-            val newItems = SurveyRestRepository.searchSurveys(query)
-            _surveys.value = newItems?.toMutableSet() ?: mutableSetOf()
-            loading = false
+            val token = loginViewModel.getToken()
+            if (token != null) {
+                val newItems = SurveyRestRepository.searchSurveys(query, token)
+                _surveys.value = newItems?.toMutableSet() ?: mutableSetOf()
+                loading = false
+            }
         }
     }
 

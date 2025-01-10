@@ -76,10 +76,20 @@ class CreateSurveyFragment : Fragment() {
             adminsAdapter.addAdmin()
         }
 
-        viewModel = ViewModelProvider(this).get(SurveyViewModel::class.java)
-        viewModelQuestion = ViewModelProvider(this).get(QuestionViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(SurveyViewModel::class.java)
 
-        viewModelOption  = ViewModelProvider(this).get(OptionViewModel::class.java)
+        viewModelQuestion = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(QuestionViewModel::class.java)
+
+        viewModelOption = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(OptionViewModel::class.java)
 
         // Настройка адаптера вопросов
         questionsAdapter = QuestionsAdapter(questionsList) { position ->

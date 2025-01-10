@@ -15,7 +15,7 @@ object SurveyRestRepository {
     // Поиск опросов
     suspend fun searchSurveys(
         query: String,
-        token: String = DEFAULT_JWT
+        token: String
     ): List<Survey>? {
         val response = api.searchSurveys("Bearer $token", query)
         return if (response.isSuccessful) {
@@ -28,7 +28,7 @@ object SurveyRestRepository {
 
     // Получение всех опросов
     suspend fun getAllSurveys(
-        token: String = DEFAULT_JWT
+        token: String
     ): List<Survey>? {
         val response = api.getAllSurveys("Bearer $token")
         return if (response.isSuccessful) {
@@ -42,7 +42,7 @@ object SurveyRestRepository {
     // Создание нового опроса
     suspend fun createSurvey(
         survey: Survey,
-        token: String = DEFAULT_JWT
+        token: String
     ): Survey? {
         val response = api.createSurvey("Bearer $token", survey)
         return if (response.isSuccessful) {
@@ -55,8 +55,8 @@ object SurveyRestRepository {
 
     // Получение опроса по ID
     suspend fun getSurveyById(
-        token: String = DEFAULT_JWT,
-        id: Int
+        id: Int,
+        token: String
     ): Survey? {
         val response = api.getSurveyById("Bearer $token", id)
         return if (response.isSuccessful) {
@@ -68,7 +68,11 @@ object SurveyRestRepository {
     }
 
     // Обновление опроса
-    suspend fun updateSurvey(token: String = DEFAULT_JWT, id: Int, survey: Survey): Survey? {
+    suspend fun updateSurvey(
+        id: Int,
+        survey: Survey,
+        token: String
+    ): Survey? {
         val response = api.updateSurvey("Bearer $token", id, survey)
         return if (response.isSuccessful) {
             response.body()
@@ -79,13 +83,19 @@ object SurveyRestRepository {
     }
 
     // Удаление опроса
-    suspend fun deleteSurvey(token: String = DEFAULT_JWT, id: Int): Boolean {
+    suspend fun deleteSurvey(
+        id: Int,
+        token: String
+    ): Boolean {
         val response = api.deleteSurvey("Bearer $token", id)
         return response.isSuccessful
     }
 
     // Получение опросов пользователя
-    suspend fun getUserSurveys(token: String = DEFAULT_JWT, userId: Int): List<Survey>? {
+    suspend fun getUserSurveys(
+        userId: Int,
+        token: String
+    ): List<Survey>? {
         val response = api.getUserSurveys("Bearer $token", userId)
         return if (response.isSuccessful) {
             response.body()

@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
 import cg.vsu.survey.adapters.SurveyAdapter
 import cg.vsu.survey.utils.DEFAULT_SURVEYS_WHEN_TO_LOAD
 import cg.vsu.survey.viewmodel.SurveyListViewModel
+import cg.vsu.survey.viewmodel.SurveyViewModel
 
 class FeedSearchFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -30,7 +32,11 @@ class FeedSearchFragment : Fragment() {
         searchEditText = requireActivity().findViewById(R.id.searchEditText) // Получаем EditText из Toolbar
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel = SurveyListViewModel()
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(SurveyListViewModel::class.java)
+
         adapter = SurveyAdapter(viewModel, this.viewLifecycleOwner)
         recyclerView.adapter = adapter
 

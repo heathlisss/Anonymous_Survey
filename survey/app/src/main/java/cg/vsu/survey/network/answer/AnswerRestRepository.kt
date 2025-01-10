@@ -17,7 +17,7 @@ object AnswerRestRepository {
         userId: Int,
         surveyId: Int,
         answers: List<Answer>,
-        token: String = DEFAULT_JWT
+        token: String
     ): String? {
         val response = api.submitAnswers("Bearer $token", userId, surveyId, answers)
         return if (response.isSuccessful) {
@@ -32,7 +32,7 @@ object AnswerRestRepository {
     suspend fun deleteAnswers(
         userId: Int,
         surveyId: Int,
-        token: String = DEFAULT_JWT
+        token: String
     ): String? {
         val response = api.deleteAnswers("Bearer $token", userId, surveyId)
         return if (response.isSuccessful) {

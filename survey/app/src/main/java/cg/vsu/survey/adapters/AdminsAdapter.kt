@@ -23,7 +23,7 @@ class AdminsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_create_element, parent, false)
+            .inflate(R.layout.create_element, parent, false)
         return AdminViewHolder(view)
     }
 

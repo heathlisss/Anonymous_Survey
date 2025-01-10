@@ -8,13 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
-import cg.vsu.survey.model.Option
-import cg.vsu.survey.viewmodel.OptionViewModel
-import cg.vsu.survey.viewmodel.QuestionViewModel
 
 class QuestionsAdapter(
     private val questions: MutableList<String>,
@@ -32,7 +28,7 @@ class QuestionsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.question_fragment, parent, false)
+            .inflate(R.layout.question_card, parent, false)
         return QuestionViewHolder(view)
     }
 
