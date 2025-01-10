@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cg.vsu.survey.utils.DEFAULT_SURVEYS_WHEN_TO_LOAD
 import cg.vsu.survey.network.survey.SurveyRestRepository
@@ -17,7 +16,7 @@ class SurveyListViewModel(application: Application) : AndroidViewModel(applicati
     private val loadLimit: Int = DEFAULT_SURVEYS_WHEN_TO_LOAD
     private var loading = false
     private var endOfFeed = false
-    private val loginViewModel = LoginViewModel(application)
+    private val loginViewModel = AuthViewModel(application)
 
     fun isLoading(): Boolean = loading
     fun isEnded(): Boolean = endOfFeed

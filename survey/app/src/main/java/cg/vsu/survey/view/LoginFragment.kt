@@ -1,6 +1,5 @@
 package cg.vsu.survey.view
 
-import android.content.Context
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
@@ -13,8 +12,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import cg.vsu.survey.R
-import cg.vsu.survey.model.UserRegistration
-import cg.vsu.survey.viewmodel.LoginViewModel
+import cg.vsu.survey.app.MainActivity
+import cg.vsu.survey.model.UserAuth
+import cg.vsu.survey.viewmodel.AuthViewModel
 
 
 class LoginFragment : Fragment() {
@@ -26,7 +26,7 @@ class LoginFragment : Fragment() {
     private lateinit var signUpButton: Button
     private lateinit var togglePasswordButton: ImageButton
 
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: AuthViewModel
 
     private var isPasswordVisible = false
 
@@ -43,14 +43,14 @@ class LoginFragment : Fragment() {
         togglePasswordButton = view.findViewById(R.id.togglePasswordButton)
 
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(requireActivity().application))
-            .get(LoginViewModel::class.java)
+            .get(AuthViewModel::class.java)
 
         setupObservers()
 
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
-            viewModel.loginUser(UserRegistration(username = username, password = password))
+            viewModel.loginUser(UserAuth(username = username, password = password))
         }
 
         signUpButton.setOnClickListener {
@@ -86,15 +86,9 @@ class LoginFragment : Fragment() {
 
         viewModel.loginSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
-                navigateToHomeFragment()
+                (activity as MainActivity).navigateToHomeFragment()
             }
         }
-    }
-
-    private fun navigateToHomeFragment() {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, FeedSurveyFragment())
-            .commit()
     }
 
     private fun navigateToSignUpFragment(username: String, password: String) {

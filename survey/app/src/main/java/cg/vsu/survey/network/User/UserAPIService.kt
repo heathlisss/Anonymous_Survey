@@ -1,8 +1,8 @@
 package cg.vsu.survey.network.User
 
-import cg.vsu.survey.model.LoginResponse
+import cg.vsu.survey.model.UserAuthResponse
 import cg.vsu.survey.model.User
-import cg.vsu.survey.model.UserRegistration
+import cg.vsu.survey.model.UserAuth
 import retrofit2.Response
 import retrofit2.http.*
 interface UserAPIService {
@@ -10,14 +10,14 @@ interface UserAPIService {
     // Вход пользователя
     @POST("/surveys/api/login/")
     suspend fun loginUser(
-        @Body credentials: UserRegistration
-    ): Response<LoginResponse>
+        @Body credentials: UserAuth
+    ): Response<UserAuthResponse>
 
     // Создание пользователя
     @POST("/surveys/api/users/")
     suspend fun createUser(
-        @Body user: UserRegistration
-    ): Response<LoginResponse>
+        @Body user: UserAuth
+    ): Response<UserAuthResponse>
 
     // Получение всех пользователей
     @GET("/surveys/api/users/all/")

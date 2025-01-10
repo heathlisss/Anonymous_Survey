@@ -3,21 +3,25 @@ package cg.vsu.survey.viewmodel
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cg.vsu.survey.model.User
-import cg.vsu.survey.model.UserRegistration
+import cg.vsu.survey.model.UserAuth
 import cg.vsu.survey.network.User.UserRestRepository
 import kotlinx.coroutines.launch
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
     private val _loginSuccess = MutableLiveData<Boolean>()
     val loginSuccess: LiveData<Boolean> get() = _loginSuccess
+
+    private val _signUpSuccess = MutableLiveData<Boolean>()
+    val signUpSuccess: LiveData<Boolean> get() = _signUpSuccess
 
     private val sharedPreferences: SharedPreferences =
         application.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
@@ -26,7 +30,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val USERNAME_KEY = "username"
     private val TOKEN_KEY = "jwt_token"
 
-    fun loginUser(credentials: UserRegistration) {
+    fun loginUser(credentials: UserAuth) {
         viewModelScope.launch {
             if (credentials.username.isBlank() || credentials.password.isBlank()) {
                 _errorMessage.value = "The password or username was not entered"
@@ -48,10 +52,45 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun registerUser(user: UserAuth, passwordReplay: String) {
+        viewModelScope.launch {
+            if (!arePasswordsMatching(user.password, passwordReplay)) {
+                _errorMessage.value = "Passwords do not match"
+                return@launch
+            }
+
+            if (user.username.isBlank() || user.password.isBlank()) {
+                _errorMessage.value = "All fields are required"
+                return@launch
+            }
+
+            try {
+                Log.d("начинаем сохранять", ": $user")
+                val result = UserRestRepository.createUser(user)
+                if (result != null) {
+                    saveUserData(result.first, result.second)
+                    _signUpSuccess.value = true
+                } else {
+                    _errorMessage.value = "Registration failed"
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Connection error: ${e.message}"
+            }
+        }
+    }
+
+    private fun arePasswordsMatching(password: String, passwordReplay: String): Boolean {
+        return password == passwordReplay
+    }
+
     private fun saveUserData(user: User, token: String) {
         with(sharedPreferences.edit()) {
-            putInt(USER_ID_KEY, user.id ?: -1)
-            putString(USERNAME_KEY, user.username)
+            putInt("id", user.id ?: -1)
+            putString("username", user.username)
+            putString("email", user.email)
+            putBoolean("admin", user.admin)
+            putString("answered_surveys", user.answered_surveys?.joinToString(","))
+            putString("created_surveys", user.created_surveys?.joinToString(","))
             putString(TOKEN_KEY, token)
             apply()
         }

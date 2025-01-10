@@ -1,6 +1,6 @@
 package cg.vsu.survey.model
 
-data class LoginResponse(
+data class UserAuthResponse(
     val id: Int? = null,
     val username: String = "",
     val email: String? = null,

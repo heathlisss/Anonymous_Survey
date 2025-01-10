@@ -102,8 +102,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="40dp"
-        android:background="@color/base"
-        android:src="@android:color/transparent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_visibility"
         app:layout_constraintLeft_toRightOf="@id/passwordEditText"
         app:layout_constraintTop_toBottomOf="@id/usernameEditText" />
 

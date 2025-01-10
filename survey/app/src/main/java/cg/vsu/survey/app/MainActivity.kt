@@ -88,5 +88,9 @@ class MainActivity : AppCompatActivity() {
     private fun setNavbarVisibility(isVisible: Boolean) {
         bottomNavBar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
-}
 
+    fun navigateToHomeFragment() {
+        bottomNavBar.selectedItemId = R.id.nav_home
+    }
+
+}

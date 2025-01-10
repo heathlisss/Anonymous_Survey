@@ -1,9 +1,9 @@
 package cg.vsu.survey.network.User
 
+import android.util.Log
 import cg.vsu.survey.app.RetrofitInstance
 import cg.vsu.survey.model.User
-import cg.vsu.survey.model.UserRegistration
-import cg.vsu.survey.model.LoginResponse
+import cg.vsu.survey.model.UserAuth
 
 
 object UserRestRepository {
@@ -15,7 +15,7 @@ object UserRestRepository {
     }
 
     // Вход пользователя
-    suspend fun loginUser(credentials: UserRegistration): Pair<User, String>? {
+    suspend fun loginUser(credentials: UserAuth): Pair<User, String>? {
         val response = api.loginUser(credentials)
         return if (response.isSuccessful) {
             val loginResponse = response.body()
@@ -37,11 +37,12 @@ object UserRestRepository {
     }
 
     // Создание пользователя
-    suspend fun createUser(user: UserRegistration): Pair<User, String>? {
+    suspend fun createUser(user: UserAuth): Pair<User, String>? {
+        Log.d("начинаем сохранять", ": $user")
         val response = api.createUser(user)
         return if (response.isSuccessful) {
-            val loginResponse = response.body()
-            loginResponse?.let {
+            val createUser = response.body()
+            createUser?.let {
                 val user = User(
                     id = it.id,
                     username = it.username,

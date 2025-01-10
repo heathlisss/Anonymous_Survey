@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cg.vsu.survey.network.question.QuestionRestRepository
 import cg.vsu.survey.model.Question
@@ -14,7 +13,7 @@ class QuestionViewModel(application: Application) : AndroidViewModel(application
     private val repositoryQuestion = QuestionRestRepository
     private val _createdQuestion = MutableLiveData<Question?>()
     val createdQuestion: LiveData<Question?> get() = _createdQuestion
-    private val loginViewModel = LoginViewModel(application)
+    private val loginViewModel = AuthViewModel(application)
 
     fun saveQuestion(question: Question, callback: (Question?) -> Unit) {
         viewModelScope.launch {
