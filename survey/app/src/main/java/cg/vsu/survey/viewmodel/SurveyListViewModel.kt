@@ -67,6 +67,24 @@ class SurveyListViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
+    fun loadUserSurveys(userId: Int) {
+        if (loading) return
+
+        loading = true
+        viewModelScope.launch {
+            val token = loginViewModel.getToken()
+            if (token != null) {
+                val userSurveys = SurveyRestRepository.getUserSurveys(userId, token)
+                if (!userSurveys.isNullOrEmpty()) {
+                    addSurveys(userSurveys)
+                } else {
+                    endOfFeed = true
+                }
+            }
+            loading = false
+        }
+    }
+
     fun clearSearch() {
         _surveys.value = mutableSetOf()
     }

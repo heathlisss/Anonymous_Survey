@@ -69,7 +69,7 @@ class FeedSearchFragment : Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
                 if ((visibleItemCount + firstVisibleItemPosition) >= (totalItemCount - DEFAULT_SURVEYS_WHEN_TO_LOAD) && firstVisibleItemPosition >= 0) {
-                    viewModel.loadData()
+                  //  viewModel.loadData()
                 }
             }
         })

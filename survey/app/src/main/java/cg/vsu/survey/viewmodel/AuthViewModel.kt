@@ -26,10 +26,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val sharedPreferences: SharedPreferences =
         application.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    private val USER_ID_KEY = "user_id"
-    private val USERNAME_KEY = "username"
-    private val TOKEN_KEY = "jwt_token"
-
     fun loginUser(credentials: UserAuth) {
         viewModelScope.launch {
             if (credentials.username.isBlank() || credentials.password.isBlank()) {
@@ -40,8 +36,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val result = UserRestRepository.loginUser(credentials)
                 if (result != null) {
-                    val (user, token) = result
-                    saveUserData(user, token)
+                    Log.d("результ не 0", " номер: ${result.first}")
+                    Log.d("результ не 0", " номер: ${result.second}")
+
+                    saveUserData(result.first, result.second)
                     _loginSuccess.value = true
                 } else {
                     _errorMessage.value = "Invalid username or password"
@@ -65,7 +63,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             try {
-                Log.d("начинаем сохранять", ": $user")
                 val result = UserRestRepository.createUser(user)
                 if (result != null) {
                     saveUserData(result.first, result.second)
@@ -85,31 +82,28 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun saveUserData(user: User, token: String) {
         with(sharedPreferences.edit()) {
-            putInt("id", user.id ?: -1)
+            putInt("id", user.id?.toInt() ?: 0)
             putString("username", user.username)
             putString("email", user.email)
             putBoolean("admin", user.admin)
             putString("answered_surveys", user.answered_surveys?.joinToString(","))
             putString("created_surveys", user.created_surveys?.joinToString(","))
-            putString(TOKEN_KEY, token)
+            putString("jwt_token", token)
             apply()
         }
     }
 
-    suspend fun getUserData(): Pair<User, String>? {
-        val id = sharedPreferences.getInt(USER_ID_KEY, -1)
-        val username = sharedPreferences.getString(USERNAME_KEY, null)
-        val token = sharedPreferences.getString(TOKEN_KEY, null)
-
-        if (id == -1 || username == null || token == null) return null
-
-        val user = User(id = id, username = username)
-        return Pair(user, token)
-    }
 
     suspend fun getToken(): String? {
-        return sharedPreferences.getString(TOKEN_KEY, null)
+        return sharedPreferences.getString("jwt_token", null)
     }
+    fun getUsernameFromPrefs(): String? {
+        return sharedPreferences.getString("username", null)
+    }
+    fun getUserIdFromPrefs(): Int? {
+        return sharedPreferences.getInt("id", -1)
+    }
+
 
     fun clearError() {
         _errorMessage.value = null

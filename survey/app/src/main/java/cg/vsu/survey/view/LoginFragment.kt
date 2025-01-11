@@ -2,6 +2,7 @@ package cg.vsu.survey.view
 
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,9 @@ class LoginFragment : Fragment() {
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
+            Log.d("Перешли вк пользователю", " номер: $username")
+            Log.d("Перешли вк пользователю", " номер: ${UserAuth(username = username, password = password)}")
+
             viewModel.loginUser(UserAuth(username = username, password = password))
         }
 

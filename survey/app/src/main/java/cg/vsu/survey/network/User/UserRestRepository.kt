@@ -16,6 +16,7 @@ object UserRestRepository {
 
     // Вход пользователя
     suspend fun loginUser(credentials: UserAuth): Pair<User, String>? {
+        Log.d("начинаем сохранять", ": $credentials")
         val response = api.loginUser(credentials)
         return if (response.isSuccessful) {
             val loginResponse = response.body()

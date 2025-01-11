@@ -5,8 +5,38 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.MainActivity"
-    android:background="@color/base">
+    android:background="@color/base"
+    tools:context=".app.MainActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/searchToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:background="@color/component"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/searchButton"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:background="@color/base"
+            android:contentDescription="@string/search"
+            android:src="@drawable/search" />
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/base"
+            android:hint="@string/search"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:textColor="@color/text"
+            android:textColorHint="@color/inactive" />
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
@@ -18,54 +48,23 @@
         app:layout_constraintTop_toBottomOf="@+id/searchToolbar"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/searchToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/component"
-        android:visibility="gone"
-        tools:ignore="MissingConstraints">
-
-        <ImageView
-            android:id="@+id/searchButton"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:src="@drawable/search"
-            android:background="@color/base"
-            android:contentDescription="@string/search" />
-
-        <EditText
-            android:id="@+id/searchEditText"
-            android:layout_marginEnd="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="@string/search"
-            android:background="@color/base"
-            android:padding="10dp"
-            android:maxLines="1"
-            android:textColor="@color/text"
-            android:textColorHint="@color/inactive"
-            android:layout_weight="1" />
-    </com.google.android.material.appbar.MaterialToolbar>
-
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_gravity="bottom"
         android:background="@color/activeComponent"
+        app:itemBackground="@android:color/transparent"
+        app:itemIconTint="@color/base"
         app:itemRippleColor="@color/component"
         app:itemTextColor="@color/base"
-        app:itemIconTint="@color/base"
-        app:itemBackground="@android:color/transparent"
-        app:rippleColor="@android:color/transparent"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:labelVisibilityMode="labeled"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navigation_bar_menu"/>
+        app:menu="@menu/navigation_bar_menu"
+        app:rippleColor="@android:color/transparent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,11 @@ class SurveyAdapter(
         }
     }
 
+    fun submitList(newSurveys: List<Survey>) {
+        surveys = newSurveys
+        notifyDataSetChanged() // Уведомляем адаптер о том, что данные изменились
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.survey_card, parent, false)
         return ViewHolder(view)

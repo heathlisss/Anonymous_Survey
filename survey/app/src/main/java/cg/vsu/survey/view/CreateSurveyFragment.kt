@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cg.vsu.survey.R
 import cg.vsu.survey.adapters.AdminsAdapter
-import cg.vsu.survey.adapters.OptionsAdapter
 import cg.vsu.survey.adapters.QuestionsAdapter
+import cg.vsu.survey.app.MainActivity
 import cg.vsu.survey.model.Option
 import cg.vsu.survey.model.Question
 import cg.vsu.survey.model.Survey
+import cg.vsu.survey.utils.DateTextWatcher
 import cg.vsu.survey.viewmodel.OptionViewModel
 import cg.vsu.survey.viewmodel.QuestionViewModel
 import cg.vsu.survey.viewmodel.SurveyViewModel
@@ -169,8 +170,7 @@ class CreateSurveyFragment : Fragment() {
     }
 
     private fun closeFragment() {
-        // Загрузка фрагмента Home (FeedSurveyFragment)
-        loadFragment(FeedSurveyFragment())
+        (activity as MainActivity).navigateToHomeFragment()
     }
 
     private fun loadFragment(fragment: Fragment) {
@@ -180,36 +180,3 @@ class CreateSurveyFragment : Fragment() {
             .commit()
     }
 }
-
-class DateTextWatcher(private val editText: EditText) : TextWatcher {
-
-    private var isUpdating = false
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-    override fun afterTextChanged(s: Editable?) {
-        if (isUpdating) return
-
-        isUpdating = true
-        try {
-            if (s != null) {
-                val cleanString = s.toString().replace("-", "").replace("/", "")
-                val formattedString = StringBuilder()
-
-                for (i in cleanString.indices) {
-                    formattedString.append(cleanString[i])
-                    if ((i == 3 || i == 5) && i < cleanString.length - 1) {
-                        formattedString.append("-")
-                    }
-                }
-
-                if (formattedString.toString() != s.toString()) {
-                    editText.setText(formattedString.toString())
-                    editText.setSelection(formattedString.length)
-                }
-            }
-        } finally {
-            isUpdating = false
-        }
-    }
-}
-
