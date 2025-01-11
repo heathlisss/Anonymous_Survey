@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
 
         usernameTextView.text = authViewModel.getUsernameFromPrefs() ?: "Unknown User"
 
-        adapter = SurveyAdapter(surveyViewModel, viewLifecycleOwner) // Передаем ViewModel
+        adapter = SurveyAdapter(surveyViewModel, viewLifecycleOwner)
         recyclerView.adapter = adapter
 
         logoutButton.setOnClickListener {
@@ -60,7 +60,11 @@ class ProfileFragment : Fragment() {
         }
 
         editButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Edit profile clicked", Toast.LENGTH_SHORT).show()
+            val fragment = EditProfileFragment()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
         }
 
         authViewModel.getUserIdFromPrefs()?.let { userId ->

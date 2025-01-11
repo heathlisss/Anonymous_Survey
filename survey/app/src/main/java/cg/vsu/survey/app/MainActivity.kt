@@ -19,7 +19,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var searchToolbar: MaterialToolbar
-//    private lateinit var profileToolbar: MaterialToolbar
     private lateinit var bottomNavBar: BottomNavigationView
     private lateinit var sharedPreferences: SharedPreferences
     private val TOKEN_KEY = "jwt_token"
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavBar = findViewById(R.id.bottomNavigationView)
         searchToolbar = findViewById(R.id.searchToolbar)
-//        profileToolbar = findViewById(R.id.profileToolbar)
 
 
         sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
@@ -42,28 +40,24 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     setNavbarVisibility(true)
-//                    setProfileToolbarVisibility(false)
                     setSearchToolbarVisibility(false)
                     loadFragment(FeedSurveyFragment())
                     true
                 }
                 R.id.nav_add_survey -> {
                     setNavbarVisibility(true)
-//                    setProfileToolbarVisibility(false)
                     setSearchToolbarVisibility(false)
                     loadFragment(CreateSurveyFragment())
                     true
                 }
                 R.id.nav_search -> {
                     setNavbarVisibility(true)
-//                    setProfileToolbarVisibility(false)
                     setSearchToolbarVisibility(true)
                     loadFragment(FeedSearchFragment())
                     true
                 }
                 R.id.nav_profile -> {
                     setNavbarVisibility(true)
-//                    setProfileToolbarVisibility(true)
                     setSearchToolbarVisibility(false)
                     loadFragment(ProfileFragment())
                     true
@@ -86,9 +80,6 @@ class MainActivity : AppCompatActivity() {
     private fun setSearchToolbarVisibility(isVisible: Boolean) {
         searchToolbar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
-//   private fun setProfileToolbarVisibility(isVisible: Boolean) {
-//        profileToolbar.visibility = if (isVisible) View.VISIBLE else View.GONE
-//    }
 
     private fun setNavbarVisibility(isVisible: Boolean) {
         bottomNavBar.visibility = if (isVisible) View.VISIBLE else View.GONE
@@ -97,12 +88,14 @@ class MainActivity : AppCompatActivity() {
     fun navigateToHomeFragment() {
         bottomNavBar.selectedItemId = R.id.nav_home
     }
+    fun navigateToProfileFragment() {
+        bottomNavBar.selectedItemId = R.id.nav_profile
+    }
 
     fun auth(){
         val jwtToken = getJwtToken()
         if (!sharedPreferences.contains("id")) {
             setNavbarVisibility(false)
-//            setProfileToolbarVisibility(false)
             setSearchToolbarVisibility(false)
             loadFragment(LoginFragment())
         } else {

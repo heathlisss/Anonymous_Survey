@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/base">
 
-    <!-- Заголовок -->
     <TextView
         android:id="@+id/helloTextView"
         android:layout_width="wrap_content"
@@ -20,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Поле для ввода Username -->
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="0dp"
@@ -38,7 +36,6 @@
         app:layout_constraintTop_toBottomOf="@id/helloTextView"
         app:layout_constraintWidth_percent="0.5" />
 
-    <!-- Горизонтальная линия под Username -->
     <View
         android:id="@+id/lineUsername"
         android:layout_width="0dp"
@@ -49,10 +46,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameEditText"
         app:layout_constraintWidth_percent="0.6" />
-
-    <!-- Поле для ввода Password -->
-
-    <!-- Горизонтальная линия под Password -->
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -106,11 +99,6 @@
         app:layout_constraintTop_toBottomOf="@id/linePassword"
         app:layout_constraintWidth_percent="0.6" />
 
-
-    <!-- Кнопка Log In -->
-    <!-- Отступ между линией и кнопкой -->
-
-    <!-- Кнопка Sign Up -->
 
     <Button
         android:id="@+id/loginButton"

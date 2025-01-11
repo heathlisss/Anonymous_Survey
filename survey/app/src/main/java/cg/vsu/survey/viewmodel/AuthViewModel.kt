@@ -23,6 +23,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _signUpSuccess = MutableLiveData<Boolean>()
     val signUpSuccess: LiveData<Boolean> get() = _signUpSuccess
 
+    private val _userDetails = MutableLiveData<User?>()
+    val userDetails: LiveData<User?> get() = _userDetails
+
     private val sharedPreferences: SharedPreferences =
         application.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
@@ -36,9 +39,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val result = UserRestRepository.loginUser(credentials)
                 if (result != null) {
-                    Log.d("результ не 0", " номер: ${result.first}")
-                    Log.d("результ не 0", " номер: ${result.second}")
-
                     saveUserData(result.first, result.second)
                     _loginSuccess.value = true
                 } else {
@@ -49,6 +49,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
 
     fun registerUser(user: UserAuth, passwordReplay: String) {
         viewModelScope.launch {
@@ -76,8 +77,70 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun arePasswordsMatching(password: String, passwordReplay: String): Boolean {
-        return password == passwordReplay
+
+    fun getUserById(userId: Int) {
+        viewModelScope.launch {
+            try {
+                val token = getToken()
+                if (token == null) {
+                    _errorMessage.value = "Token not found"
+                    return@launch
+                }
+
+                val user = UserRestRepository.getUser(userId, token)
+                _userDetails.value = user
+            } catch (e: Exception) {
+                _errorMessage.value = "Connection error: ${e.message}"
+            }
+        }
+    }
+
+    fun deleteUserById(userId: Int) {
+        viewModelScope.launch {
+
+            try {
+                val token = getToken()
+                if (token == null) {
+                    _errorMessage.value = "Token not found"
+                    return@launch
+                }
+
+                val result = UserRestRepository.deleteUser(userId, token)
+                if (result) {
+                    _loginSuccess.value = true
+                } else {
+                    _errorMessage.value = "Failed to delete user"
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Connection error: ${e.message}"
+            }
+        }
+    }
+
+    fun updateUserById(userId: Int, user: UserAuth, passwordReplay: String) {
+        viewModelScope.launch {
+            if (!arePasswordsMatching(user.password, passwordReplay)) {
+                _errorMessage.value = "Passwords do not match"
+                return@launch
+            }
+            try {
+                val token = getToken()
+                if (token == null) {
+                    _errorMessage.value = "Token not found"
+                    return@launch
+                }
+
+                val result = UserRestRepository.updateUser(userId, user, token)
+                if (result != null) {
+                    loginUser(result)
+                    _loginSuccess.value = true
+                } else {
+                    _errorMessage.value = "Failed to update user"
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Connection error: ${e.message}"
+            }
+        }
     }
 
     private fun saveUserData(user: User, token: String) {
@@ -93,6 +156,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun arePasswordsMatching(password: String, passwordReplay: String): Boolean {
+        return password == passwordReplay
+    }
 
     suspend fun getToken(): String? {
         return sharedPreferences.getString("jwt_token", null)
@@ -103,12 +169,4 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     fun getUserIdFromPrefs(): Int? {
         return sharedPreferences.getInt("id", -1)
     }
-
-
-    fun clearError() {
-        _errorMessage.value = null
-    }
 }
-
-
-

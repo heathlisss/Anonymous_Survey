@@ -72,7 +72,7 @@ object UserRestRepository {
     }
 
     // Получение пользователя по ID
-    suspend fun getUserById(
+    suspend fun getUser(
         id: Int,
         token: String
     ): User? {
@@ -88,9 +88,9 @@ object UserRestRepository {
     // Обновление пользователя
     suspend fun updateUser(
         id: Int,
-        user: User,
+        user: UserAuth,
         token: String
-    ): User? {
+    ): UserAuth? {
         val response = api.updateUser("Bearer $token", id, user)
         return if (response.isSuccessful) {
             response.body()

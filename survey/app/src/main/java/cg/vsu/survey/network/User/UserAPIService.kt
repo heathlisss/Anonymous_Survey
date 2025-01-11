@@ -37,8 +37,8 @@ interface UserAPIService {
     suspend fun updateUser(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
-        @Body user: User
-    ): Response<User>
+        @Body user: UserAuth
+    ): Response<UserAuth>
 
     // Удаление пользователя
     @DELETE("/surveys/api/users/{id}/")
